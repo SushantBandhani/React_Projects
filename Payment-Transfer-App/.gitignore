@@ -1,0 +1,39 @@
+# Dependencies
+/node_modules
+
+# Build output
+/build
+/dist
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE/editor directories
+/.idea
+.vscode
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Parcel-bundler cache
+.cache
+
+# React Native
+# Uncomment the following lines if you're using React Native
+# .expo
+# .expo-shared
+
+# Coverage directory
+/coverage
+
+# Testing
+/jest-test-results.json
+/coverage/
