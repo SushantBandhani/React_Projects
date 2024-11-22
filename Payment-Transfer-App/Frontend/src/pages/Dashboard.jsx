@@ -1,11 +1,13 @@
 import { AppBar } from "../components/AppBar"
 import { MessageComponent } from "../components/MessageComponent"
-import { InputComponent } from "../components/InputComponent"
+import { Users } from "../components/Users"
 
 export const Dashboard=()=>{
-    return <>
+    return <div>
     <AppBar></AppBar>
     <MessageComponent></MessageComponent>
-    <InputComponent></InputComponent>
-    </>
+    <div className="m-8">
+    <Users></Users>
+    </div>
+    </div>
 }
