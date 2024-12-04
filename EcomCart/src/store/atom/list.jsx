@@ -32,11 +32,11 @@ export const fetchAllProductsState = selector({
         const data=await response.json()
         if(arrK.length>0){
           const filtered_Products = data.filter((item) => arrK.includes(item.brand));
-          console.log("filtered products--> ",filtered_Products)
+          // console.log("filtered products--> ",filtered_Products)
           return filtered_Products;
         }
         else{
-          console.log("hello")
+          // console.log("hello")
           return data;
         }
        
