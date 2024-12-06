@@ -33,12 +33,11 @@ export const fetchAllProductsState = selector({
         const filteredArray=get(filterList)
         const sortDataY=get(sortData)
         const arrK=get(Farr);
-        const response =await fetch('http://localhost:3000/products')
-        const data=await response.json()
+        let filtered_Products=[...productsStateArray];
         if(arrK.length>0 || sortDataY!=''){
-          let filtered_Products = data.filter((item) => (arrK.includes(item.brand) || arrK.includes(item.category)));
-          if(filtered_Products.length==0){
-            filtered_Products=[...data]
+           filtered_Products = productsStateArray.filter((item) => (arrK.includes(item.brand) || arrK.includes(item.category)));
+           if(filtered_Products.length==0){
+            filtered_Products=[...productsStateArray]
           }
           if(sortDataY=='rating'){
             filtered_Products.sort((a,b)=>{return b.rating-a.rating})
@@ -48,13 +47,9 @@ export const fetchAllProductsState = selector({
           }
           else{
             filtered_Products.sort((a,b)=>{return b.price-a.price})
-
           }
-          return filtered_Products;
         }
-        else{
-          return data;
-        }
+        return filtered_Products;
       } catch (error) {
         console.error('Error fetching products:', error);
         return []; // Return an empty array on error
