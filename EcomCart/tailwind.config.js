@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+import aspectRatio from '@tailwindcss/aspect-ratio';
+import forms from '@tailwindcss/forms';
+
 export default {
   content: [
     "./src/**/*.{html,js,jsx,ts,tsx}",
@@ -11,5 +14,5 @@ export default {
       },
     },
   },
-  plugins: [require('@tailwindcss/aspect-ratio'),require('@tailwindcss/forms')],
+  plugins: [aspectRatio, forms],
 };
