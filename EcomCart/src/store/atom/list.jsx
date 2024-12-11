@@ -25,6 +25,15 @@ export const sortData=atom({
   default:''
 })
 
+export const brands=atom({
+  key:"brands",
+  default:[]
+})
+export const categories=atom({
+  key:"categories",
+  default:[]
+})
+
 export const fetchAllProductsState = selector({
     key: 'fetchAllProductsState', // A unique ID for this selector
     get: async ({get}) => {
