@@ -1,7 +1,7 @@
 // import react from 'react'
 import { useState, useEffect } from 'react'
-import { useSetRecoilState, useRecoilValue } from 'recoil'
-import { productsState, fetchAllProductsState, sortData, statusState, Farr } from '../../store/atom/list'
+import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil'
+import { productsState, fetchAllProductsState, sortData, statusState, Farr,brands,categories } from '../../store/atom/list'
 import classNames from 'classnames';
 import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
@@ -29,104 +29,7 @@ const sortOptions = [
   { name: 'Price: High to Low', sort: 'price', order: "desc", current: false },
 ]
 
-const filters = [
-  {
-    id: 'brand',
-    name: 'Brands',
-    options: [
-      { value: 'Essence', label: 'Essence', checked: false }
-      ,
-      { value: 'Glamour Beauty', label: 'Glamour Beauty', checked: false },
-      { value: 'Velvet Touch', label: 'Velvet Touch', checked: false },
-      { value: 'Chic Cosmetics', label: 'Chic Cosmetics', checked: false },
-      { value: 'Nail Couture', label: 'Nail Couture', checked: false },
-      { value: 'Calvin Klein', label: 'Calvin Klein', checked: false },
-      { value: 'Chanel', label: 'Chanel', checked: false },
-      { value: 'Dior', label: 'Dior', checked: false },
-      {
-        value: 'Dolce & Gabbana',
-        label: 'Dolce & Gabbana',
-        checked: false
-      },
-      { value: 'Gucci', label: 'Gucci', checked: false },
-      {
-        value: 'Annibale Colombo',
-        label: 'Annibale Colombo',
-        checked: false
-      },
-      { value: 'Furniture Co.', label: 'Furniture Co.', checked: false },
-      { value: 'Knoll', label: 'Knoll', checked: false },
-      {
-        value: 'Bath Trends', label: 'Bath Trends', checked:
-          false
-      },
-      { value: 'Apple', label: 'Apple', checked: false },
-      { value: 'Asus', label: 'Asus', checked: false },
-      { value: 'Huawei', label: 'Huawei', checked: false },
-      { value: 'Lenovo', label: 'Lenovo', checked: false },
-      { value: 'Dell', label: 'Dell', checked: false },
-      { value: 'Fashion Trends', label: 'Fashion Trends', checked: false },
-      {
-        value: 'Gigabyte', label: 'Gigabyte', checked: false
-      },
-      { value: 'Classic Wear', label: 'Classic Wear', checked: false },
-      { value: 'Casual Comfort', label: 'Casual Comfort', checked: false },
-      { value: 'Urban Chic', label: 'Urban Chic', checked: false },
-      { value: 'Nike', label: 'Nike', checked: false },
-      { value: 'Puma', label: 'Puma', checked: false },
-      { value: 'Off White', label: 'Off White', checked: false },
-      {
-        value: 'Fashion Timepieces',
-        label: 'Fashion Timepieces',
-        checked: false
-      },
-      { value: 'Longines', label: 'Longines', checked: false },
-      { value: 'Rolex', label: 'Rolex', checked: false },
-      { value: 'Amazon', label: 'Amazon', checked: false }
-    ],
-  },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      { value: 'beauty', label: 'beauty', checked: false },
-      { value: 'fragrances', label: 'fragrances', checked: false },
-      { value: 'furniture', label: 'furniture', checked: false },
-      { value: 'groceries', label: 'groceries', checked: false },
-      {
-        value: 'home-decoration',
-        label: 'home-decoration',
-        checked: false
-      },
-      {
-        value: 'kitchen-accessories',
-        label: 'kitchen-accessories',
-        checked: false
-      },
-      { value: 'laptops', label: 'laptops', checked: false },
-      { value: 'mens-shirts', label: 'mens-shirts', checked: false },
-      { value: 'mens-shoes', label: 'mens-shoes', checked: false },
-      { value: 'mens-watches', label: 'mens-watches', checked: false },
-      {
-        value: 'mobile-accessories',
-        label: 'mobile-accessories',
-        checked: false
-      }
-    ],
-  },
-  // {
-  //   id: 'size',
-  //   name: 'Size',
-  //   options: [
-  //     { value: '2l', label: '2L', checked: false },
-  //     { value: '6l', label: '6L', checked: false },
-  //     { value: '12l', label: '12L', checked: false },
-  //     { value: '18l', label: '18L', checked: false },
-  //     { value: '20l', label: '20L', checked: false },
-  //     { value: '40l', label: '40L', checked: true },
-  //   ],
-  // },
-]
+
 
 export default function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
@@ -135,7 +38,33 @@ export default function ProductList() {
   const setsortArr = useSetRecoilState(sortData);
   const setProducts = useSetRecoilState(productsState);
   const setStatus = useSetRecoilState(statusState);
+  const [branD,setBrands]=useRecoilState(brands)
+  const [categorieS,setCategories]=useRecoilState(categories)
   const [totalItems,setTotalItems]=useState(0);
+  const filters = [
+    {
+      id: 'brand',
+      name: 'Brands',
+      options: branD,
+    },
+    {
+      id: 'category',
+      name: 'Category',
+      options: categorieS,
+    },
+    // {
+    //   id: 'size',
+    //   name: 'Size',
+    //   options: [
+    //     { value: '2l', label: '2L', checked: false },
+    //     { value: '6l', label: '6L', checked: false },
+    //     { value: '12l', label: '12L', checked: false },
+    //     { value: '18l', label: '18L', checked: false },
+    //     { value: '20l', label: '20L', checked: false },
+    //     { value: '40l', label: '40L', checked: true },
+    //   ],
+    // },
+  ];
   // const [page,setPage]=useState(1);
   let _limit=10;
   // let totalItems=0;
@@ -153,6 +82,13 @@ export default function ProductList() {
         setStatus('loading');
         const response = await fetch(`https://dummyjson.com/products?limit=${_limit}&skip=${(page-1)*_limit}`);
         const data = await response.json();
+        const response2 = await fetch(`http://localhost:3000/brands`);
+        const data2 = await response2.json();
+        const response3 = await fetch(`http://localhost:3000/categories`);
+        const data3 = await response3.json();
+        // console.log(data2,data3)
+        setBrands(data2)
+        setCategories(data3)
 
         /* Need to fix this headers issue to get the totalcount ,until then manually setting a totalItems */
 
@@ -193,7 +129,7 @@ export default function ProductList() {
         <div className="bg-white">
           <div>
             {/* Mobile filter dialog */}
-            <MobileFilter mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} handleFilter={handleFilter}></MobileFilter>
+            <MobileFilter mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} handleFilter={handleFilter} filters={filters}></MobileFilter>
 
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
@@ -256,7 +192,7 @@ export default function ProductList() {
                 <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                   {/* Filters */}
 
-                  <DesktopFilter handleFilter={handleFilter}></DesktopFilter>
+                  <DesktopFilter handleFilter={handleFilter} filters={filters}></DesktopFilter>
 
                   {/* Product grid */}
                   <ProductGrid filteredArray={filteredArray}></ProductGrid>
@@ -276,7 +212,7 @@ export default function ProductList() {
   )
 }
 
-function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen, handleFilter }) {
+function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen, handleFilter,filters }) {
   return (
     <Dialog open={mobileFiltersOpen} onClose={setMobileFiltersOpen} className="relative z-40 lg:hidden">
       <DialogBackdrop
@@ -348,7 +284,7 @@ function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen, handleFilter })
   );
 }
 
-function DesktopFilter({ handleFilter }) {
+function DesktopFilter({ handleFilter,filters }) {
   return <form className="hidden lg:block">
 
 
