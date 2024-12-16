@@ -33,6 +33,10 @@ export const categories=atom({
   key:"categories",
   default:[]
 })
+export const productId=atom({
+  key:'productId',
+  default:null
+})
 
 export const fetchAllProductsState = selector({
     key: 'fetchAllProductsState', // A unique ID for this selector
@@ -65,3 +69,38 @@ export const fetchAllProductsState = selector({
       }
     },
   });
+
+
+  export const productState = selector({
+    key: 'productState',
+    get: async ({ get }) => {
+      const id = get(productId);
+  
+      if (!id){
+        return {};
+      }
+  
+      try {
+        const response = await fetch(`https://dummyjson.com/products/${id}`);
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Failed to fetch product:', error);
+        return {};
+      }
+    },
+  });
+
+// State to store the logged-in user
+export const authState = atom({
+  key: "authState",
+  default: {
+    user:null
+  },
+});
+
+// State to store signup error messages
+export const authErrorState = atom({
+  key: "authErrorState",
+  default: null,
+});
