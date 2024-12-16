@@ -1,30 +1,59 @@
-import { useState } from 'react'
-import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import LoginPage from './pages/LoginPage'
-import SignupPage from './pages/SignupPage'
-import Checkout from './pages/Checkout'
-import CartPage from './features/components/CartPage'
-import ProductDetailsPage from './pages/ProductDetailsPage'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+import Home from './pages/Home';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import Checkout from './pages/Checkout';
+import CartPage from './features/components/CartPage';
+import ProductDetailsPage from './pages/ProductDetailsPage';
+import { ProtectedRoute } from './features/auth/ProtectedRoute';
 
 function App() {
-
   return (
-    <div>
+    <RecoilRoot>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home></Home>}>        </Route>
-          <Route path="/login" element={<LoginPage></LoginPage>}></Route>
-          <Route path="/signup" element={<SignupPage></SignupPage>}></Route>
-          <Route path="/cartPage" element={<CartPage></CartPage>}></Route>
-          <Route path="/checkout" element={<Checkout></Checkout>}></Route>
-          <Route path="/productDetails" element={<ProductDetailsPage></ProductDetailsPage>}></Route>
+          {/* Public Routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cartPage"
+            element={
+              <ProtectedRoute>
+                <CartPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/productDetails/:id"
+            element={
+              <ProtectedRoute>
+                <ProductDetailsPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
-
-    </div>
-  )
+    </RecoilRoot>
+  );
 }
 
-export default App
+export default App;
