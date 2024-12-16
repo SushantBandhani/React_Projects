@@ -1,5 +1,17 @@
 import {Link} from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import {checkUser} from '../auth/authApi'
+import { authState ,authErrorState} from '../../store/atom/list';
+import { useRecoilValue,useSetRecoilState } from "recoil";
+
+
 export default function Login(){
+      const { register, handleSubmit, watch, formState: { errors } } = useForm()
+      const setUser = useSetRecoilState(authState);
+      const setError = useSetRecoilState(authErrorState); 
+      const user = useRecoilValue(authState); 
+  
+  
     return (
         <>
           {/*
@@ -23,21 +35,37 @@ export default function Login(){
             </div>
     
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-              <form action="#" method="POST" className="space-y-6">
+              <form noValidate className="space-y-6" onSubmit={handleSubmit((data) => {
+                                      try{
+                                       checkUser({email:data.email,password:data.password}).then((data)=>{
+                                          console.log(data.data)
+                                          setUser(authState,{data}); // Update Recoil state with the new user
+                                          setError(null); // Clear any previous error
+                                          })
+                                    } catch (err) {
+                                      setError(err.message); // Set error if API call fails
+                                    }
+                                      
+                                  })}>
                 <div>
                   <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                     Email address
                   </label>
                   <div className="mt-2">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      autoComplete="email"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-                    />
-                  </div>
+                                <input
+                                    id="email"
+                                    {...register("email", {
+                                        required: "Email is required", pattern: {
+                                            value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                                            message: "Email not Valid"
+                                        }
+                                    })}
+                                    type="email"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                                />
+                                {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
+
+                            </div>
                 </div>
     
                 <div>
@@ -52,15 +80,17 @@ export default function Login(){
                     </div>
                   </div>
                   <div className="mt-2">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      required
-                      autoComplete="current-password"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-                    />
-                  </div>
+                                <input
+                                    id="password"
+                                    {...register("password", {
+                                        required: "Password is required",
+                                    })}
+                                    type="password"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                                />
+                                {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+
+                            </div>
              
                 </div>
     
