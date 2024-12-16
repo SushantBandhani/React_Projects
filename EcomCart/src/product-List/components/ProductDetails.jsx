@@ -1,41 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { Radio, RadioGroup } from '@headlessui/react'
+import { useParams } from 'react-router-dom';
+import { use } from 'react';
+import { useSetRecoilState ,useRecoilValue} from 'recoil';
+import {productId,productState} from '../../store/atom/list/'
 
-const product = {
-  name: 'Basic Tee 6-Pack',
-  price: '$192',
-  href: '#',
-  breadcrumbs: [
-    { id: 1, name: 'Men', href: '#' },
-    { id: 2, name: 'Clothing', href: '#' },
-  ],
-  images: [
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
-      alt: 'Two each of gray, white, and black shirts laying flat.',
-    },
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
-      alt: 'Model wearing plain black basic tee.',
-    },
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
-      alt: 'Model wearing plain gray basic tee.',
-    },
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
-      alt: 'Model wearing plain white basic tee.',
-    },
-  ],
-  colors: [
+
+
+  const colors= [
     { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
     { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
     { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
-  ],
-  sizes: [
+  ]
+  const sizes= [
     { name: 'XXS', inStock: false },
     { name: 'XS', inStock: true },
     { name: 'S', inStock: true },
@@ -44,19 +24,14 @@ const product = {
     { name: 'XL', inStock: true },
     { name: '2XL', inStock: true },
     { name: '3XL', inStock: true },
-  ],
-  description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-  highlights: [
+  ]
+  
+  const highlights= [
     'Hand cut and sewn locally',
     'Dyed with our proprietary colors',
     'Pre-washed & pre-shrunk',
     'Ultra-soft 100% cotton',
-  ],
-  details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-}
-
+  ]
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
 function classNames(...classes) {
@@ -64,15 +39,30 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+  const [selectedColor, setSelectedColor] = useState(colors[0])
+  const [selectedSize, setSelectedSize] = useState(sizes[2])
+  // const [product,setProduct]=useState([])
+  const setProductId=useSetRecoilState(productId);
+  const product = useRecoilValue(productState);
 
-  return (
+  const { id } = useParams(); // Extract product ID from URL
+
+  useEffect(() => {
+    if (id) {
+      setProductId(id);  // Dynamically set the ID in the atom
+    }
+  }, [id, setProductId]);
+
+
+  // Todo --> In server data we will add colors,sizes etc.
+  // console.log("product is -->",product.images[0])
+   return (product==null || Object.keys(product).length===0)?null:(
+
     <div className="bg-white">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            {product.breadcrumbs.map((breadcrumb) => (
+            {product.breadcrumbs && product.breadcrumbs.map((breadcrumb) => (
               <li key={breadcrumb.id}>
                 <div className="flex items-center">
                   <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
@@ -93,7 +83,7 @@ export default function ProductDetails() {
             ))}
             <li className="text-sm">
               <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {product.name}
+                {product.title}
               </a>
             </li>
           </ol>
@@ -101,40 +91,41 @@ export default function ProductDetails() {
 
         {/* Image gallery */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <img
-            alt={product.images[0].alt}
-            src={product.images[0].src}
+           <img
+            alt={product.title}
+            src={product.images[0]}
             className="hidden aspect-[3/4] size-full rounded-lg object-cover lg:block"
-          />
+          /> 
+      
           <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
             <img
-              alt={product.images[1].alt}
-              src={product.images[1].src}
+              alt={product.title}
+              src={product.images[0]}
               className="aspect-[3/2] size-full rounded-lg object-cover"
             />
             <img
-              alt={product.images[2].alt}
-              src={product.images[2].src}
+              alt={product.title}
+              src={product.images[0]}
               className="aspect-[3/2] size-full rounded-lg object-cover"
             />
           </div>
           <img
-            alt={product.images[3].alt}
-            src={product.images[3].src}
+            alt={product.title}
+            src={product.images[0]}
             className="aspect-[4/5] size-full object-cover sm:rounded-lg lg:aspect-[3/4]"
-          />
+          /> 
         </div>
 
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.title}</h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
+            <p className="text-3xl tracking-tight text-gray-900">${product.price}</p>
 
             {/* Reviews */}
             <div className="mt-6">
@@ -146,16 +137,16 @@ export default function ProductDetails() {
                       key={rating}
                       aria-hidden="true"
                       className={classNames(
-                        reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
+                        product.rating > rating ? 'text-gray-900' : 'text-gray-200',
                         'size-5 shrink-0',
                       )}
                     />
                   ))}
                 </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
-                <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                <p className="sr-only">{product.rating} out of 5 stars</p>
+                {/* <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                   {reviews.totalCount} reviews
-                </a>
+                </a> */}
               </div>
             </div>
 
@@ -166,7 +157,7 @@ export default function ProductDetails() {
 
                 <fieldset aria-label="Choose a color" className="mt-4">
                   <RadioGroup value={selectedColor} onChange={setSelectedColor} className="flex items-center space-x-3">
-                    {product.colors.map((color) => (
+                    {colors && colors.map((color) => (
                       <Radio
                         key={color.name}
                         value={color}
@@ -201,7 +192,7 @@ export default function ProductDetails() {
                     onChange={setSelectedSize}
                     className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
                   >
-                    {product.sizes.map((size) => (
+                    {sizes && sizes.map((size) => (
                       <Radio
                         key={size.name}
                         value={size}
@@ -264,7 +255,7 @@ export default function ProductDetails() {
 
               <div className="mt-4">
                 <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  {product.highlights.map((highlight) => (
+                  {highlights.map((highlight) => (
                     <li key={highlight} className="text-gray-400">
                       <span className="text-gray-600">{highlight}</span>
                     </li>
@@ -277,7 +268,7 @@ export default function ProductDetails() {
               <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{product.details}</p>
+                <p className="text-sm text-gray-600">{product.description}</p>
               </div>
             </div>
           </div>
