@@ -1,14 +1,16 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { Navigate } from "react-router-dom";
-import { authState } from "../../store/atom/list";
+import { authState,loggedInUserSelector} from "../../store/atom/list";
 
 export const ProtectedRoute=({ children })=>{
-  const user = useRecoilValue(authState); // Get logged-in user state
+  const user = useRecoilValue(loggedInUserSelector); // Get logged-in user state
+  console.log("Inside protected route",user)
 
-  if (!user) {
+  if (user===null) {
+    console.log("sdghddfjhf");
     // If user is not logged in, redirect to signup or login page
-    console.log("Hello")
+    // console.log("Hello")
     return <Navigate to="/signup" replace={true} />;
   }
 
