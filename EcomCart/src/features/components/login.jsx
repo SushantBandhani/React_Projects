@@ -1,27 +1,23 @@
-import {Link} from 'react-router-dom'
+import {Link, Navigate} from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import {checkUser} from '../auth/authApi'
-import { authState ,authErrorState} from '../../store/atom/list';
-import { useRecoilValue,useSetRecoilState } from "recoil";
+import { authState ,authErrorState,loggedInUserSelector} from '../../store/atom/list';
+import { useRecoilValue,useSetRecoilState,useRecoilState } from "recoil";
 
 
 export default function Login(){
       const { register, handleSubmit, watch, formState: { errors } } = useForm()
       const setUser = useSetRecoilState(authState);
-      const setError = useSetRecoilState(authErrorState); 
-      const user = useRecoilValue(authState); 
-  
-  
+      const [error,setError] = useRecoilState(authErrorState); 
+      const user = useRecoilValue(loggedInUserSelector); 
+      console.log("Ji namaste",user)
+    if(user!=null){
+      console.log("hello i am here ");
+      <Navigate to="/" replace={true}></Navigate>
+    }
     return (
         <>
-          {/*
-            This example requires updating your template:
-    
-            ```
-            <html class="h-full bg-white">
-            <body class="h-full">
-            ```
-          */}
+          {user!=null && <Navigate to="/" replace={true}></Navigate>}
           <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <img
@@ -36,16 +32,13 @@ export default function Login(){
     
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
               <form noValidate className="space-y-6" onSubmit={handleSubmit((data) => {
-                                      try{
                                        checkUser({email:data.email,password:data.password}).then((data)=>{
-                                          console.log(data.data)
-                                          setUser(authState,{data}); // Update Recoil state with the new user
-                                          setError(null); // Clear any previous error
-                                          })
-                                    } catch (err) {
-                                      setError(err.message); // Set error if API call fails
-                                    }
-                                      
+                                        console.log(data)
+                                        setUser({ user: data.data });
+                                        setError(null); // Clear any previous error
+                                          }).catch((err)=>{
+                                            setError(err.message); // Set error if API call fails
+                                          })                                      
                                   })}>
                 <div>
                   <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
@@ -88,7 +81,7 @@ export default function Login(){
                                     type="password"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                 />
-                                {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+                                {error && <p className='text-red-500'>{error}</p>}
 
                             </div>
              

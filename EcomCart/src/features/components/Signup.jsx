@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import {createUser} from '../auth/authApi'
-import { authState ,authErrorState} from '../../store/atom/list';
+import { authState ,authErrorState,loggedInUserSelector} from '../../store/atom/list';
 import { useRecoilValue,useSetRecoilState } from "recoil";
 
 export default function Signup() {
     const setUser = useSetRecoilState(authState);
     const setError = useSetRecoilState(authErrorState); 
-    const user = useRecoilValue(authState); 
+    const user = useRecoilValue(loggedInUserSelector); 
   
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     // console.log(errors)  // Will show you errors
@@ -29,8 +29,8 @@ export default function Signup() {
                     <form noValidate className="space-y-6" onSubmit={handleSubmit((data) => {
                         try{
                         createUser({email:data.email,password:data.password}).then((data)=>{
-                            console.log(data.data)
-                            setUser(authState,{data}); // Update Recoil state with the new user
+                            console.log(data,data.data)
+                            setUser({ user: data.data });
                             setError(null); // Clear any previous error
                             })
                       } catch (err) {
