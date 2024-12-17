@@ -104,3 +104,13 @@ export const authErrorState = atom({
   key: "authErrorState",
   default: null,
 });
+
+
+export const loggedInUserSelector = selector({
+  key: "loggedInUserSelector",
+  get: ({ get }) => {
+    const auth = get(authState);
+    return auth?.user || null; // Return the user or null
+  },
+});
+
