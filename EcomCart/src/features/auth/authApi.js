@@ -18,7 +18,7 @@ export function createUser(userData){
 
 
 export function checkUser(loginInfo){
-    return new Promise(async(resolve)=>{
+    return new Promise(async(resolve,reject)=>{
         const email = loginInfo.email;
         const password = loginInfo.password;
         const response=await fetch("http://localhost:3000/users?email="+email)
@@ -29,9 +29,9 @@ export function checkUser(loginInfo){
           if (password === data[0].password) {
             resolve({ data: data[0] });
           } else {
-            reject({ message: 'wrong credentials' });
+            reject({ message: 'Wrong credentials' });
           }
         } else {
-          reject({ message: 'user not found' });
+          reject({ message: 'User not found' });
         }
 })}
