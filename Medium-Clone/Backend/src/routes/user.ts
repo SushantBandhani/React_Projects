@@ -37,7 +37,7 @@ userRouter.post('/signup', async(c) => {
           jwt:token
         })    
     }
-    catch(e){   // Will catch our error here if user already exist,email can not be duplicate
+    catch(e){   
       c.status(411);
       return c.text('User already exists with this email')
     }
