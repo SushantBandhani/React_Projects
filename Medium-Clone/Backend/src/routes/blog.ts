@@ -113,7 +113,7 @@ blogRouter.post('/', async (c) => {
     data: {
       title: body.title,
       content: body.content,
-      authorId: userId   //will extract the userId from middleware ,right now hard coding
+      authorId: userId  
     }
   })
   return c.json({ id: blog.id })
