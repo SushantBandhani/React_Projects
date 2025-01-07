@@ -21,6 +21,7 @@ export const Auth=({type}:{type:"signup" | "signin"})=>{
         const jwt=response.data;
         console.log(jwt.jwt)
         localStorage.setItem("token",jwt.jwt);
+        console.log(postInputs)
         navigate("/blogs")
     }
     catch(e){
