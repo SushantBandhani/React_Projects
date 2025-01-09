@@ -3,6 +3,7 @@ import {PrismaClient} from '@prisma/client/edge'
 import {withAccelerate} from '@prisma/extension-accelerate'
 import {sign} from 'hono/jwt'
 import { signupInput,signinInput } from "@sushant398/medium-back";
+import { deriveKey,generateSalt,verifyPassword } from "../../hashPass";
 
 export const userRouter=new Hono<{
     Bindings:{
@@ -11,6 +12,7 @@ export const userRouter=new Hono<{
     }
   }>()
 
+  
 userRouter.post('/signup', async(c) => {
   console.log("I am here")
     const body = await c.req.json()
@@ -24,11 +26,16 @@ userRouter.post('/signup', async(c) => {
   }).$extends(withAccelerate())
   
     try{
+        // Example Usage
+      const salt = generateSalt(16); // Generate a 16-byte salt
+      const hashedPassword =await deriveKey(body.password, salt);
+      
       const user=await prisma.user.create({
           data:{
             name:body.name,
             email:body.email,
-            password:body.password,
+            password:hashedPassword,
+            salt:salt
           }
         })
       
@@ -59,7 +66,6 @@ userRouter.post('/signin', async(c) => {
     const user=await prisma.user.findUnique({
         where:{
           email:body.email,
-          password:body.password
         }
       })
   
@@ -67,7 +73,16 @@ userRouter.post('/signin', async(c) => {
         c.status(403)
         return c.json({error:"user not found"})
       }
-  
+      
+      const isValid = await verifyPassword(body.password, user.password, user.salt);
+      if (isValid) {
+          console.log("Password is correct!");
+      } else {
+          console.log("Invalid password!");
+          return c.json({
+            message:"Invaid password"
+          })
+      }
       const token= await sign({id:user.id},c.env.JWT_SECRET)
       return c.json({
         jwt:token
