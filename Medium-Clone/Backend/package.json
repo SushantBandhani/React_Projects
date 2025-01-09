@@ -4,8 +4,9 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify"
   },
+  "type": "module",
   "dependencies": {
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^6.2.1",
     "@prisma/extension-accelerate": "^1.2.1",
     "@sushant398/medium-back": "^1.0.0",
     "hono": "^4.6.15",
