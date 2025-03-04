@@ -56,8 +56,9 @@ const handleLogin=async(e)=>{
                 {error&&<p className="text-red-500 text-xs pb-2.5">{error}</p>}
                 <button type="submit" className="btn-primary">LOGIN</button>
 
-                <p className="text-[13px] text-slate-800 mt-3"> Dont have an account?("")</p>
-                <Link className="font-medium text-primary underline" to="/signup">Signup</Link>
+                <p className="text-[13px] text-slate-800 mt-3"> Dont have an account?("")
+                <Link className="font-medium text-violet-500 underline" to="/signup"> Signup</Link>
+                </p>
             </form>
 
             </div>
