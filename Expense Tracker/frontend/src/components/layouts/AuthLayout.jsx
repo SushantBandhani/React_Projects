@@ -22,7 +22,7 @@ const AuthLayout=({children})=>{
                         colors="bg-primary" />
                     </div>
 
-                    <div className="bg-violet-50 relative z-50 rounded-2xl mt-2 pt-2 pb-2">
+                    <div className="bg-violet-50 relative rounded-2xl mt-2 pt-2 pb-2">
                     <StackedBarChart className="w-64 lg:w-[90%] absolute bottom-10 shadow-lg shadow-blue-400/15 " />
                     </div>
                 </div>
