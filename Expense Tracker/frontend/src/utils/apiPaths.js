@@ -18,10 +18,10 @@ export const API_PATHS={
         DOWNLOAD_INCOME:`api/v1/income/downloadexcel`
     },
     EXPENSE:{
-        ADD_Expense:"/api/v1/income/add",
-        GET_ALL_Expense:"/api/v1/income/get",
-        DELETE_Expense:(expenseId)=>`/api/v1/income/${expenseId}`,
-        DOWNLOAD_Expense:`api/v1/income/downloadexcel`
+        ADD_Expense:"/api/v1/expense/add",
+        GET_ALL_Expense:"/api/v1/expense/get",
+        DELETE_Expense:(expenseId)=>`/api/v1/expense/${expenseId}`,
+        DOWNLOAD_Expense:`api/v1/expense/downloadexcel`
     },
     IMAGE:{
         UPLOAD_IMAGE:"/api/v1/auth/upload-image",
