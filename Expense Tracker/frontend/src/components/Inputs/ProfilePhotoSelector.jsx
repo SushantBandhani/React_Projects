@@ -3,8 +3,7 @@ import { LuUser,LuUpload,LuTrash } from 'react-icons/lu';
 const ProfilePhotoSelector=({image,setImage})=>{
     const inputRef=useRef(null);
     const [previewUrl,setPreviewUrl]=useState(null);
-    const handleImageChange=(event)=>{
-        const file=event.target.files[0];
+    const handleFile=(file)=>{
         if(file){
             // update the image site
             setImage(file)
@@ -15,6 +14,23 @@ const ProfilePhotoSelector=({image,setImage})=>{
         }
     }
 
+    // Handling image selection via input
+    const handleImageChange=(event)=>{
+        const file=event.target.files[0];
+        handleFile(file);
+    }
+
+     // Handle drag-and-drop events
+     const handleDrop = (event) => {
+        event.preventDefault();
+        const file = event.dataTransfer.files[0]; 
+        handleFile(file);
+    };
+
+    const handleDragOver = (event) => {
+        event.preventDefault(); 
+    };
+
     const handleRemoveImage=()=>{
         setImage(null);
         setPreviewUrl(null)
@@ -23,20 +39,39 @@ const ProfilePhotoSelector=({image,setImage})=>{
     const onChooseFile=()=>{
         inputRef.current.click()
     }
- return <div className="flex justify-center mb-6 ">
-        <input type="file" accept="image/*" ref={inputRef} onChange={handleImageChange} className="hidden"></input>
-        {!image?(<div className="w-20 h-20 flex items-center justify-center bg-purple-100 rounded-full relative">
-            <LuUser className="text-4xl text-violet-800 "/>
-            <button type="button" className="w-8 h-8 flex items-center justify-center bg-violet-500 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer" onClick={onChooseFile}>
-            <LuUpload />
-            </button>
+    
+    return (
+        <div 
+            className="flex justify-center mb-6"
+            onDrop={handleDrop} 
+            onDragOver={handleDragOver} 
+        >
+            <input type="file" accept="image/*" ref={inputRef} onChange={handleImageChange} className="hidden" />
             
-        </div>):(<div className="relative">
-            <img src={previewUrl} alt="profile photo" className="w-20 h-20 rounded-full object-cover"></img>
-            
-            <button type="button" className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer" onClick={handleRemoveImage}><LuTrash></LuTrash></button>
-            </div>)}
- </div>
+            {!image ? (
+                <div className="w-20 h-20 flex items-center justify-center bg-purple-100 rounded-full relative cursor-pointer"
+                    onClick={onChooseFile} 
+                >
+                    <LuUser className="text-4xl text-violet-800" />
+                    <button type="button" className="w-8 h-8 flex items-center justify-center bg-violet-500 text-white rounded-full absolute -bottom-1 -right-1">
+                        <LuUpload />
+                    </button>
+                </div>
+            ) : (
+                <div className="relative">
+                    <img src={previewUrl} alt="profile photo" className="w-20 h-20 rounded-full object-cover" />
+                    
+                    <button 
+                        type="button" 
+                        className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
+                        onClick={handleRemoveImage}
+                    >
+                        <LuTrash />
+                    </button>
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default ProfilePhotoSelector
