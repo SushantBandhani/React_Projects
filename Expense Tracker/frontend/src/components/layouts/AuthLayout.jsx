@@ -1,12 +1,13 @@
 import StackedBarChart from "@/components/Charts/StackedBarChart";
 import { LuTrendingUpDown } from "react-icons/lu";
+import card from '@/assets/images/card.jpg'
 
 const AuthLayout=({children})=>{
     // console.log(children)
     return (
         <div className="flex">
             <div className="w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12">
-                <h2 className="text-lg font-medium text-black">Expense Tracker</h2>
+                <h2 className="text-4xl font-medium text-black">Expense Tracker</h2>
                 {children}
                 {/* <StackedBarChart /> */}
                 </div>
@@ -22,9 +23,7 @@ const AuthLayout=({children})=>{
                         colors="bg-primary" />
                     </div>
 
-                    <div className="bg-violet-50 relative rounded-2xl mt-2 pt-2 pb-2">
-                    <StackedBarChart className="w-64 lg:w-[90%] absolute bottom-10 shadow-lg shadow-blue-400/15 " />
-                    </div>
+                        <img src={card} className="w-64 lg:w-[90%] absolute bottom-32 shadow-lg shadow-blue-400/15"></img>
                 </div>
         </div>
     )
