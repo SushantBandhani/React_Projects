@@ -1,24 +1,26 @@
-import React,{createContext,useState} from "react";
+import React, { createContext, useState } from "react";
 
-export const UserContext=createContext()
+export const UserContext = createContext()
 
-const UserProvider=({children})=>{
-    const [user,setUser]=useState(null);
+const UserProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    // Inside UserProvider
+    console.log("UserProvider rendered");
 
     //Function to update the user data
-    const updateUser=(userData)=>{
+    const updateUser = (userData) => {
         setUser(userData);
     }
 
     // Function to clear user data (e.g, on logout)
-    const clearUser=()=>{
+    const clearUser = () => {
         setUser(null)
     }
     return (
-        <UserContext.Provider value={{user,updateUser,clearUser}}>
-        {children}
+        <UserContext.Provider value={{ user, updateUser, clearUser }}>
+            {children}
         </UserContext.Provider>
-    )    
+    )
 }
 
 export default UserProvider
