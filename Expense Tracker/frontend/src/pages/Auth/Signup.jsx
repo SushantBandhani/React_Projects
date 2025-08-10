@@ -1,4 +1,4 @@
-import react, { useState } from 'react'
+import { useState } from 'react'
 import AuthLayout from '@/components/layouts/AuthLayout'
 import { useNavigate } from 'react-router-dom';
 import Input from '@/components/Inputs/Input';
@@ -64,7 +64,7 @@ const Signup = () => {
                 navigate("/dashboard");
             }
         }
-        catch (err) {
+        catch (error) {
             if (error.response && error.response.data.message) {
                 setError(error.response.data.message)
             }
@@ -118,7 +118,7 @@ const Signup = () => {
                     {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
                     <button type="submit" className="btn-primary">Signup</button>
 
-                    <p className="text-[13px] text-slate-800 mt-3"> Already have an account?("")
+                    <p className="text-[13px] text-slate-800 mt-3"> Already have an account?
                         <Link className="font-medium text-violet-500 underline" to="/login"> Login</Link>
                     </p>
                 </form>
