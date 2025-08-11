@@ -1,4 +1,3 @@
-import react from 'react'
 import { useUserAuth } from '@/hooks/useUserAuth';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { API_PATHS } from '@/utils/apiPaths';
@@ -154,8 +153,8 @@ const Expense = () => {
                 isOpen={openAddExpenseModal}
                 onClose={() => {
                     setOpenAddExpenseModal(false)
-                    title = "Add Expense"
                 }}
+                title = "Add Expense"
             >
                 <AddExpenseForm
                     onAddExpense={handleAddExpense}
