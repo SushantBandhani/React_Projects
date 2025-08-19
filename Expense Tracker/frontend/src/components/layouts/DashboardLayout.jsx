@@ -5,13 +5,14 @@ import SideMenu from "./SideMenu"
 
 const DashboardLayout=({children,activeMenu})=>{
     const {user}=useContext(UserContext)
-    console.log(user)
+    // What if it takse sometime to load a skeleton would be good
+    // if(!user) return <div>Loading...</div>
     return (
         <div className="">
             <Navbar activeMenu={activeMenu}></Navbar>
             {user &&(
                 <div className="flex">
-                    <div className="">
+                    <div className="max-[1080px]:hidden">
                         <SideMenu activeMenu={activeMenu}></SideMenu>
                     </div>
 
