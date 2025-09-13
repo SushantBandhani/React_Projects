@@ -118,7 +118,7 @@ const Signup = () => {
                     {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
                     <button type="submit" className="btn-primary">Signup</button>
 
-                    <p className="text-[13px] text-slate-800 mt-3"> Already have an account?
+                    <p className="text-[13px] text-slate-800 mt-3"> Already have an account? {" "}
                         <Link className="font-medium text-violet-500 underline" to="/login"> Login</Link>
                     </p>
                 </form>
