@@ -20,7 +20,7 @@ const CustomPieChart = ({
     <ResponsiveContainer width="100%" height={380}>
       <PieChart>
         <Pie
-          data={data || []} // Prevents errors if data is undefined
+          data={data || []}
           dataKey="amount"
           nameKey="name"
           cx="50%"
