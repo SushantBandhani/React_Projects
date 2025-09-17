@@ -6,13 +6,13 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-
 import CustomTooltip from "./CustomTooltip";
 import CustomLegend from "./CustomLegend";
+
 const CustomPieChart = ({
   data,
   label,
-  totalIncome,
+  totalAmount,
   colors,
   showTextAnchor,
 }) => {
@@ -36,13 +36,12 @@ const CustomPieChart = ({
         <Tooltip content={CustomTooltip} />
         <Legend content={CustomLegend} />
         {showTextAnchor && (
-          <>
+          <g>
             <text
               x="50%"
-              y="50%"
-              dy="-15"
+              y="44%"
               textAnchor="middle"
-              dominantBaseline="middle"
+              dominantBaseline="central"
               fill="#666"
               fontSize="14px"
             >
@@ -51,17 +50,15 @@ const CustomPieChart = ({
             <text
               x="50%"
               y="50%"
-              dy="10"
               textAnchor="middle"
-              dominantBaseline="middle"
+              dominantBaseline="central"
               fill="#333"
               fontSize="24px"
               fontWeight="600"
             >
-              {totalIncome}{" "}
-              {/* Make sure this is used instead of totalAmount */}
+              {totalAmount}
             </text>
-          </>
+          </g>
         )}
       </PieChart>
     </ResponsiveContainer>

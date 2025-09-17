@@ -18,7 +18,7 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
         label={"Total balance"}
         totalAmount={`$${totalBalance}`}
         colors={COLORS}
-        showTextAnchor
+        showTextAnchor={true}   
       ></CustomPieChart>
     </div>
   );
