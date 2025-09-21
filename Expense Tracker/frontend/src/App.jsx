@@ -1,12 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login from './pages/Auth/Login';
-import Signup from './pages/Auth/Signup';
-import Home from './pages/Dashboard/Home';
-import Income from './pages/Dashboard/Income';
-import Expense from './pages/Dashboard/Expense';
-import UserProvider from './context/useContext';
-import { Toaster } from 'react-hot-toast';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Login from "./pages/Auth/Login";
+import Signup from "./pages/Auth/Signup";
+import Home from "./pages/Dashboard/Home";
+import Income from "./pages/Dashboard/Income";
+import Expense from "./pages/Dashboard/Expense";
+import UserProvider from "./context/useContext";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -26,7 +30,7 @@ const App = () => {
           position="top-center" // ← This controls the position
           toastOptions={{
             style: {
-              fontSize: '13px',
+              fontSize: "13px",
             },
           }}
         />
@@ -35,13 +39,16 @@ const App = () => {
   );
 };
 
-export default App
-
+export default App;
 
 const Root = () => {
   // Check if token exist in local storage
   const isAuthenticated = !!localStorage.getItem("token");
 
   // Redirect to dashboard if aurthenticated otherwise to login
-  return isAuthenticated ? (<Navigate to="/dashboard" />) : (<Navigate to="login" />)
-}
+  return isAuthenticated ? (
+    <Navigate to="/dashboard" />
+  ) : (
+    <Navigate to="login" />
+  );
+};
