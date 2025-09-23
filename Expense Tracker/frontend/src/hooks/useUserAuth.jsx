@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 export const useUserAuth = () => {
     const { user, updateUser, clearUser } = useContext(UserContext);
     // Inside useUserAuth
-    console.log("useUserAuth ran");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,5 +37,5 @@ export const useUserAuth = () => {
         return () => {
             isMounted = false;
         }
-    }, [user,updateUser, clearUser, navigate])
+    }, [user, updateUser, clearUser, navigate])
 }
