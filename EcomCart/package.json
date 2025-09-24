@@ -12,14 +12,17 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/forms": "^0.5.9",
     "classnames": "^2.5.1",
     "json-server": "^1.0.0-beta.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.1",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.0.1",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
