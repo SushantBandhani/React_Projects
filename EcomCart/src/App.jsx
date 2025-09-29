@@ -1,53 +1,102 @@
-// import { Counter } from './features/counter/Counter';
-import { RecoilRoot } from 'recoil';
-import './App.css';
-import Home from './pages/Home';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import CartPage from './pages/CartPage';
-import Checkout from './pages/Checkout';
-import ProductDetailsPage from './pages/ProductDetailsPage';
+import { RecoilRoot } from "recoil";
+import "./App.css";
+import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import CartPage from "./pages/CartPage";
+import Checkout from "./pages/Checkout";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { store } from "./app/store";
+import { ProtectedRoute } from "./features/auth/ProtectedRoute";
+import { useEffect } from "react";
+import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
+import { selectLoggedInUser } from "./features/auth/authSlice";
+import PageNotFound from "./404";
+import OrderSuccessPage from "./OrderSuccessPage";
+import UserOrders from "./features/user/components/UserOrders";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Home></Home>,
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <Home></Home>,
+      </ProtectedRoute>
+    ),
   },
   {
-    path: '/login',
+    path: "/login",
     element: <LoginPage></LoginPage>,
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <SignupPage></SignupPage>,
   },
   {
-    path: '/cart',
-    element: <CartPage></CartPage>,
+    path: "/cart",
+    element: (
+      <ProtectedRoute>
+        <CartPage></CartPage>,
+      </ProtectedRoute>
+    ),
   },
   {
-    path: '/checkout',
-    element: <Checkout></Checkout>,
+    path: "/checkout",
+    element: (
+      <ProtectedRoute>
+        <Checkout></Checkout>
+      </ProtectedRoute>
+    ),
   },
   {
-    path: '/product-details',
-    element: <ProductDetailsPage></ProductDetailsPage>,
+    path: "/product-details/:id",
+    element: (
+      <ProtectedRoute>
+        <ProductDetailsPage></ProductDetailsPage>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/order-success/:id",
+    element: (
+      <ProtectedRoute>
+        <OrderSuccessPage></OrderSuccessPage>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/orders",
+    element: (
+      <ProtectedRoute>
+        <UserOrders></UserOrders>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "*",
+    element: <PageNotFound></PageNotFound>,
   },
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+  const user = useSelector(selectLoggedInUser);
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchItemsByUserIdAsync());
+    }
+  }, [user, dispatch]);
+
   return (
     <div className="App">
       <RecoilRoot>
-      <RouterProvider router={router} />
-        </RecoilRoot>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </RecoilRoot>
     </div>
   );
 }
