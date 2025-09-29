@@ -1,19 +1,34 @@
-import { Link, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { resetCart } from "./features/cart/cartAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { loggedInUserSelector } from "./store/atom/list";
+import { resetOrder } from "./features/orders/orderSlice";
 
-export default function OrderSuccessPage({ order }) {
+export default function OrderSuccessPage() {
+  const params = useParams();
+  const dispatch = useDispatch();
+  const id = params.id;
+  const user = useSelector(loggedInUserSelector);
+
+  useEffect(() => {
+    dispatch(resetCart(user.id));
+    dispatch(resetOrder(user.id));
+  }, [dispatch,user]);
+
   return (
     <>
-      {!order && <Navigate to="/" replace={true} />}
+      {!id && <Navigate to="/" replace={true} />}
       <main className="grid min-h-full place-items-center bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
           <p className="text-base font-semibold text-indigo-400">
             Order Successfully placed!!
           </p>
           <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">
-            Order Number #{order.id}
+            Order Number #{id}
           </h1>
           <p className="mt-6 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
-            you can check your order in My Account > My Orders{" "}
+            you can check your order in My Account {" > "} My Orders{" "}
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
