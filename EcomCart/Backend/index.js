@@ -1,6 +1,8 @@
 const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
+const { createProduct } = require("./controller/Product");
+const productRouters=require("./routes/Product")
 
 async function main() {
   try {
@@ -16,9 +18,15 @@ async function main() {
 
 main().catch((err) => console.log(err));
 
+//middlewares
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+
 server.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+server.use("/products", productRouters.router);
 
 server.listen(3000, () => {
   console.log("Server is running on port 3000");
