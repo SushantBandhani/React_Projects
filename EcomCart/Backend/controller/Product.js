@@ -11,8 +11,13 @@ exports.createProduct = async (req, res) => {
 };
 
 exports.fetchAllProducts = async (req, res) => {
-  let query = Product.find({});
-  let totalProductsQuery = Product.find({});
+let condition={}
+  if(!req.query.admin){
+    condition.deleted={deleted:{$ne:true}}
+  }
+  let query = Product.find(condition);
+  let totalProductsQuery = Product.find(condition);
+  4;
 
   if (req.query.category) {
     query = query.find({ category: req.query.category });
@@ -20,6 +25,10 @@ exports.fetchAllProducts = async (req, res) => {
       category: req.query.category,
     });
   }
+
+  console.log(query.getFilter());
+  console.log(query.getOptions());
+
   if (req.query.brand) {
     query = query.find({ brand: req.query.brand });
     totalProductsQuery = totalProductsQuery.find({ brand: req.query.brand });
@@ -30,7 +39,10 @@ exports.fetchAllProducts = async (req, res) => {
     query = query.sort({ [req.query._sort]: req.query._order });
   }
 
-  const totalDocs = await totalProductsQuery.count().exec();
+  console.log(query.getFilter());
+  console.log(query.getOptions());
+
+  const totalDocs = await totalProductsQuery.countDocuments().exec();
   console.log({ totalDocs });
 
   if (req.query._page && req.query._limit) {
